@@ -2,36 +2,36 @@
 #include<vector>
 using namespace std;
 
-#define TABLE_X 20 //Å×Æ®¸®½º ÆÇ x Ãà ±æÀÌ
-#define TABLE_Y 30 //Å×Æ®¸®½º ÆÇ y Ãà ±æÀÌ
+#define TABLE_X 20 //í…ŒíŠ¸ë¦¬ìŠ¤ íŒ x ì¶• ê¸¸ì´
+#define TABLE_Y 30 //í…ŒíŠ¸ë¦¬ìŠ¤ íŒ y ì¶• ê¸¸ì´
 
 class MainMenu {
 public:
 	MainMenu() {
 		cout << "\n\n\n\n";
 		cout << "\t\t"; cout << "@@@@@@@@@@@@  @@@@@@@@@   @@@@@@@@@@@  @@@@@@@@   @   @@@@@@@@@@@\n";
-		cout << "\t\t"; cout << "      @       @   @            @       @      @   @   @          \n";
-		cout << "\t\t"; cout << "      @       @   @            @       @      @   @   @          \n";
+		cout << "\t\t"; cout << "      @       @                @       @      @   @   @          \n";
+		cout << "\t\t"; cout << "      @       @                @       @      @   @   @          \n";
 		cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @     @    @   @@@@@@@@@@@\n";
-		cout << "\t\t"; cout << "      @       @   @            @       @ @ @      @             @\n";
-		cout << "\t\t"; cout << "      @       @   @            @       @     @    @             @\n";
+		cout << "\t\t"; cout << "      @       @                @       @ @ @      @             @\n";
+		cout << "\t\t"; cout << "      @       @                @       @     @    @             @\n";
 		cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @      @   @   @@@@@@@@@@@\n\n\n\n\n";
-		cout << "\t\t"; cout << "                °ÔÀÓÀ» ½ÃÀÛÇÏ·Á¸é ¾Æ¹«Å°³ª ´©¸£¼¼¿ä.\n\n\n\n\n\n\n";
+		cout << "\t\t"; cout << "                ê²Œì„ì„ ì‹œì‘í•˜ë ¤ë©´ ì•„ë¬´í‚¤ë‚˜ ëˆ„ë¥´ì„¸ìš”.\n\n\n\n\n\n\n";
 
 		cout << "\t\t"; cout << "                   TetrisGame1.0 By SeokJinLee\n";
 
-		getchar(); // ¾Æ¹«Å° ÀÔ·Â ±â´Ù¸²
-		system("cls"); // ÄÜ¼Ö Ã¢ clear
+		getchar(); // ì•„ë¬´í‚¤ ì…ë ¥ ê¸°ë‹¤ë¦¼
+		system("cls"); // ì½˜ì†” ì°½ clear
 	}
 };
 
 class GameTable {
 private:
-	int x; // °¡·Î
-	int y; // ¼¼·Î
-	vector<vector<int> > table; // Å×ÀÌºí ÆÇ 0 = " ", 1 = "¢Ë" , 2  = "¡á"
+	int x; // ê°€ë¡œ
+	int y; // ì„¸ë¡œ
+	vector<vector<int> > table; // í…Œì´ë¸” íŒ 0 = " ", 1 = "â–¦" , 2  = "â– "
 public:
-	GameTable(int x, int y) { //Å×Æ®¸®½º ÆÇ »À´ë »ı¼º
+	GameTable(int x, int y) { //í…ŒíŠ¸ë¦¬ìŠ¤ íŒ ë¼ˆëŒ€ ìƒì„±
 		this->x = x;
 		this->y = y;
 		for (int i = 0; i < y; i++) {
@@ -41,7 +41,7 @@ public:
 			}
 			table.push_back(temp);
 		}
-		//°¡Àå ÀÚ¸® »À´ë »öÄ¥
+		//ê°€ì¥ ìë¦¬ ë¼ˆëŒ€ ìƒ‰ì¹ 
 		for (int i = 0; i < x; i++) {
 			table[0][i] = 1;
 			table[y - 1][i] = 1;
@@ -54,8 +54,8 @@ public:
 	void DrawGameTable() {
 		for (int i = 0; i < y; i++) {
 			for (int j = 0; j < x; j++) {
-				if (table[i][j] == 1)cout << "¢Ë";
-				else cout << "  "; // µÎ Ä­ ¶ç¿ì±â
+				if (table[i][j] == 1)cout << "â–¦";
+				else cout << "  "; // ë‘ ì¹¸ ë„ìš°ê¸°
 			}
 			cout << "\n";
 		}
@@ -63,9 +63,9 @@ public:
 };
 
 int main(void) {
-	system("mode con cols=100 lines=40 | title Å×Æ®¸®½º °ÔÀÓ"); // ÄÜ¼ÖÃ¢ Å©±â ¹× Á¦¸ñ ¼³Á¤
-	GameTable gt(TABLE_X, TABLE_Y); //°ÔÀÓ ÆÇ ±×¸®±â °´Ã¼ »ı¼º
-	MainMenu(); // ¸ŞÀÎ ¸Ş´º ±×¸®±â »ı¼ºÀÚ È£Ãâ
-	gt.DrawGameTable(); // °ÔÀÓÆÇÀ» ±×¸°´Ù.
+	system("mode con cols=100 lines=40 | title í…ŒíŠ¸ë¦¬ìŠ¤ ê²Œì„"); // ì½˜ì†”ì°½ í¬ê¸° ë° ì œëª© ì„¤ì •
+	GameTable gt(TABLE_X, TABLE_Y); //ê²Œì„ íŒ ê·¸ë¦¬ê¸° ê°ì²´ ìƒì„±
+	MainMenu(); // ë©”ì¸ ë©”ë‰´ ê·¸ë¦¬ê¸° ìƒì„±ì í˜¸ì¶œ
+	gt.DrawGameTable(); // ê²Œì„íŒì„ ê·¸ë¦°ë‹¤.
 	return 0;
 }
