@@ -12,5 +12,6 @@ TetrisGame1.1
 
 TetrisGame1.2
 - 블럭 이동시 벽면 충돌 방지 구현
-- 블럭 회전시 벽면 충돌 방지 구현 
--> backup class를 통해서 block 객체, table vector 백업 후 충돌시 롤백하도록 구현 
+- 블럭 회전시 벽면 충돌 방지 구현
+
+  (backup class를 통해서 block 객체, table vector 백업 후 충돌시 롤백하도록 구현) 
