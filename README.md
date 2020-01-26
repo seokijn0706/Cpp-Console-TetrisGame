@@ -24,3 +24,5 @@ TetrisGame1.2
     (블럭이 쌓이는 가장 밑바닥을 나타내는건 table vector 값을 4으로 설정)
 
     (table vector 값에 맞도록 draw, 벽면 및 블럭 충돌 방지 코드 수정)
+ 
+ - 블럭을 쌓으면 블럭 재생성
