@@ -22,6 +22,7 @@ using namespace std;
 #define RIGHT 77  // →
 #define UP 72 // ↑
 #define DOWN 80 // ↓
+#define SPACE 32 // space
 
 /*커서 숨기기(0) or 보이기(1) */
 void CursorView(char show) {
@@ -237,6 +238,9 @@ public:
 	void setShape(int r, int y, int x, int value) {
 		this->shape[r][y][x] = value;
 	}
+	void up() { //hard drop 처리용 블럭 한 칸 위로 이동
+		y--;
+	}
 };
 /*1번 블럭 클래스*/
 class Block1 : public Block {
@@ -333,7 +337,7 @@ public:
 		cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @      @   @   @@@@@@@@@@@\n\n\n\n\n";
 		cout << "\t\t"; cout << "                게임을 시작하려면 아무키나 누르세요.\n\n\n\n\n\n\n";
 
-		cout << "\t\t"; cout << "                   TetrisGame1.3 By SeokJinLee\n";
+		cout << "\t\t"; cout << "                   TetrisGame1.4 By SeokJinLee\n";
 
 		getchar(); // 아무키 입력 기다림
 		system("cls"); // 콘솔 창 clear
@@ -386,7 +390,7 @@ public:
 			table[0][i] = 1;
 			table[y - 1][i] = 1;
 		}
-		for (int i = 1; i < y-1; i++) {
+		for (int i = 1; i < y - 1; i++) {
 			table[i][0] = 1;
 			table[i][x - 1] = 1;
 		}
@@ -548,7 +552,38 @@ public:
 			}
 		}
 	}
-	
+	/*스페이스바 누를 시 바로 떨어짐*/
+	void HardDropBlock() {
+		/*테이블에서 블럭 객체 지우기*/
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				int Y = j + blockObject->getY();
+				int X = i + blockObject->getX();
+				if (table[Y][X] == 2) { // 만약 블럭이면
+					table[Y][X] = 0; // 테이블에서 지운다
+				}
+			}
+		}
+		while (true) { //바닥이나 블럭을 만날때까지 반복
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					int Y = j + blockObject->getY();
+					int X = i + blockObject->getX();
+					int blockValue = blockObject->getShape(blockObject->getRotationCount(), i, j); //블럭 배열 값 얻기
+
+					if (blockValue != 2) continue; // 블럭이 아니면 무시 (블럭은 2로 이루어져있음)
+
+					if (table[Y][X] == 3 || table[Y][X] == 4) { // 블럭이나 벽을 만나면
+						blockObject->up(); // 한 칸 위로 올리고
+						BuildBlock(); // 블럭을 쌓고
+						createBlock(); // 새로운 블럭을 만듬
+						return; // 함수 종료
+					}
+				}
+			}
+			blockObject->down(); // 블럭을 한 칸 아래로 이동
+		}
+	}
 };
 
 
@@ -562,8 +597,18 @@ public:
 		gt = new GameTable(TABLE_X, TABLE_Y); //게임 판 그리기 객체 생성
 		gt->createBlock(); // 초기 블럭 생성
 		gt->DrawGameTable(); // 게임판을 그린다.
+		int timer = 0;
+		clock_t start, end;
+		start = clock();
+		float time;
 		while (true) { // 방향키 입력 이벤트
 			int nSelect;
+			end = clock();
+			time = ((float)(end - start) / CLOCKS_PER_SEC);
+			if (time >= 1.5) { // 약 1.5초가 지나면
+				gt->MoveBlock(DOWN); //블럭을 한 칸 떨어뜨림
+				start = clock(); // 시간을 다시 잰다
+			}
 			if (_kbhit()) {
 				nSelect = _getch();
 				if (nSelect == 224) {
@@ -584,6 +629,9 @@ public:
 					default:
 						break;
 					}
+				}
+				else if(nSelect == SPACE){ // 스페이스바 눌렀을 때
+					gt->HardDropBlock(); // 블럭을 바로 떨어뜨린다
 				}
 			}
 			gotoxy(0, 0); //system("cls") 안쓰고 (0, 0)으로 커서 이동 후
