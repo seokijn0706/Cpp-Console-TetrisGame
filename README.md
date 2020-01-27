@@ -26,3 +26,12 @@ TetrisGame1.2
     (table vector 값에 맞도록 draw, 벽면 및 블럭 충돌 방지 코드 수정)
  
  - 블럭을 쌓으면 블럭 재생성
+ 
+  TetrisGame1.4
+  - hard drop(빠른 낙하) 구현
+
+      (space 누르면 -> hard drop)
+
+  - 초마다 블럭 떨어뜨리기 구현
+
+      (1.5초마다 블럭이 떨어지도록 구현)
