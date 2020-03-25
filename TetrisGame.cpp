@@ -15,7 +15,8 @@ using namespace std;
 블럭이 쌓이는 맨 밑바닥 = 4
 */
 
-#define TABLE_X 20 //테트리스 판 x 축 길이
+#define END_Y 6    // 게임 종료 선
+#define TABLE_X 15 //테트리스 판 x 축 길이
 #define TABLE_Y 38 //테트리스 판 y 축 길이
 
 #define LEFT 75 // ←
@@ -79,7 +80,7 @@ const int block2[4][4][4] = {
 						{0, 2, 2, 0},
 						{0, 2, 2, 0},
 						{0, 0, 0, 0}
-		},
+		},  
 		{
 						{0, 0, 0, 0},
 						{0, 2, 2, 0},
@@ -256,7 +257,7 @@ public:
 				}
 			}
 		}
-	}
+	} 
 };
 /*2번 블럭 클래스*/
 class Block2 : public Block {
@@ -337,7 +338,7 @@ public:
 		cout << "\t\t"; cout << "      @       @@@@@@@@@        @       @      @   @   @@@@@@@@@@@\n\n\n\n\n";
 		cout << "\t\t"; cout << "                게임을 시작하려면 아무키나 누르세요.\n\n\n\n\n\n\n";
 
-		cout << "\t\t"; cout << "                   TetrisGame1.4 By SeokJinLee\n";
+		cout << "\t\t"; cout << "                   TetrisGame1.5 By SeokJinLee\n";
 
 		getchar(); // 아무키 입력 기다림
 		system("cls"); // 콘솔 창 clear
@@ -398,7 +399,10 @@ public:
 		for (int i = 1; i < x - 1; i++) {
 			table[y - 1][i] = 4; // 맽 밑의 값을 4
 		}
-
+		/*게임 종료 선*/
+		for (int i = 1; i < x - 1; i++) {
+			table[END_Y][i] = 5; // 게임 종료 선 값을 5
+		}
 
 	}
 	/*게임판 그리는 함수*/
@@ -407,6 +411,7 @@ public:
 			for (int j = 0; j < x; j++) {
 				if (table[i][j] == 1 || table[i][j] == 4) cout << "▦";
 				else if (table[i][j] == 2 || table[i][j] == 3) cout << "■";
+				else if (table[i][j] == 5) cout << "◎";
 				else cout << "  "; // 두 칸 띄우기
 			}
 			cout << "\n";
@@ -426,6 +431,9 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 				table[Y][X] = blockObject->getShape(blockObject->getRotationCount(), i, j);
 				//블럭 객체를 테이블에 업데이트
 			}
@@ -444,6 +452,7 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
 				if (table[Y][X] == 2) { // 만약 블럭이면
 					table[Y][X] = 0; // 테이블에서 지운다
 				}
@@ -460,6 +469,9 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 				int blockValue = blockObject->getShape(blockObject->getRotationCount(), i, j); //블럭 배열 값 얻기
 
 				if (blockValue != 2) continue; // 블럭이 아니면 무시 (블럭은 2로 이루어져있음)
@@ -511,6 +523,9 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 				if (table[Y][X] == 2) { // 만약 블럭이면
 					table[Y][X] = 0; // 테이블에서 지운다
 				}
@@ -525,6 +540,9 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 				int blockValue = blockObject->getShape(blockObject->getRotationCount(), i, j); //블럭 배열 값 얻기
 
 				if (blockValue != 2) continue; // 블럭이 아니면 무시 (블럭은 2로 이루어져있음)
@@ -546,6 +564,9 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 				int blockValue = blockObject->getShape(blockObject->getRotationCount(), i, j); //블럭 배열 값 얻기
 				if (blockValue != 2) continue; // 블럭이 아니면 무시 (블럭은 2로 이루어져있음)
 				table[Y][X] = 3;
@@ -559,6 +580,9 @@ public:
 			for (int j = 0; j < 4; j++) {
 				int Y = j + blockObject->getY();
 				int X = i + blockObject->getX();
+
+				if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 				if (table[Y][X] == 2) { // 만약 블럭이면
 					table[Y][X] = 0; // 테이블에서 지운다
 				}
@@ -569,6 +593,9 @@ public:
 				for (int j = 0; j < 4; j++) {
 					int Y = j + blockObject->getY();
 					int X = i + blockObject->getX();
+
+					if (Y < 0 || X < 0 || Y >= TABLE_Y || X >= TABLE_X) continue; // array out of range 방지
+
 					int blockValue = blockObject->getShape(blockObject->getRotationCount(), i, j); //블럭 배열 값 얻기
 
 					if (blockValue != 2) continue; // 블럭이 아니면 무시 (블럭은 2로 이루어져있음)
@@ -583,6 +610,29 @@ public:
 			}
 			blockObject->down(); // 블럭을 한 칸 아래로 이동
 		}
+	}
+	/*일직선 삭제*/
+	void DeleteLinear() {
+		for (int Y = END_Y + 1; Y < TABLE_Y - 1; Y++) {
+			bool isLinear = true;
+			for (int X = 1; X < TABLE_X - 1; X++) {
+				if (table[Y][X] != 3) isLinear = false;
+			}
+			if (isLinear) {
+				for (int i = Y; i > END_Y - 1; i--) {
+					for (int j = 1; j < TABLE_X - 1; j++) {
+						table[i][j] = table[i - 1][j];
+					}
+				}
+			}
+		}
+	}
+	/*쌓은 블록이 게임 종료 선에 닿았는지 체크*/
+	bool isReachEnding() {
+		for (int X = 1; X < TABLE_X - 1; X++) {
+			if (table[END_Y][X] == 3) return true;
+		}
+		return false;
 	}
 };
 
@@ -630,15 +680,20 @@ public:
 						break;
 					}
 				}
-				else if(nSelect == SPACE){ // 스페이스바 눌렀을 때
+				else if (nSelect == SPACE) { // 스페이스바 눌렀을 때
 					gt->HardDropBlock(); // 블럭을 바로 떨어뜨린다
 				}
 			}
+			if (gt->isReachEnding())return; // 쌓은 블럭이 종료 선에 닿으면 게임 종료
+			gt->DeleteLinear();
 			gotoxy(0, 0); //system("cls") 안쓰고 (0, 0)으로 커서 이동 후
 			gt->DrawGameTable(); // 다시 그리기
 		}
 	}
 	~GamePlay() { // 게임 종료 이벤트
+		system("cls");
+		gotoxy(10, 10);
+		cout << "Game Over!";
 		delete gt;
 	}
 };
@@ -649,7 +704,6 @@ int main(void) {
 	MainMenu(); // 메인 메뉴 그리기 생성자 호출
 	GamePlay(); // 게임 플레이
 	getchar();
-
 
 	return 0;
 }
